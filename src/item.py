@@ -5,10 +5,11 @@ class Item:
     pay_rate = 1.0
     all = []
 
-    def __init__(self, name, price, quantity):
+    def __init__(self, name: str, price: float, quantity: int):
         self._name = name
         self.price = price
         self.quantity = quantity
+        self.__class__.all.append(self)
         Item.all.append(self)
 
     @property
@@ -23,7 +24,7 @@ class Item:
             self._name = value
 
     def calculate_total_price(self):
-        return self.quantity * self.price * self.pay_rate
+        return self.quantity * self.price
 
     def apply_discount(self):
         self.price = self.price * self.pay_rate
@@ -31,7 +32,7 @@ class Item:
 
     @classmethod
     def instantiate_from_csv(cls):
-        with open("D:\Python\homework\exercise_13\electronics-shop-project\src\items.csv", "r") as file:
+        with open("..\src\items.csv", "r" ) as file:
             reader = DictReader(file)
             for row in reader:
                 item = cls(row["name"], int(row["price"]), int(row["quantity"]))
