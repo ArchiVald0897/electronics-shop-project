@@ -9,8 +9,6 @@ class Item:
         self._name = name
         self.price = price
         self.quantity = quantity
-        self.__class__.all.append(self)
-        Item.all.append(self)
 
     @property
     def name(self):
@@ -32,7 +30,7 @@ class Item:
 
     @classmethod
     def instantiate_from_csv(cls):
-        with open("..\src\items.csv", "r" ) as file:
+        with open("..\src\items.csv", "r", encoding='utf-8') as file:
             reader = DictReader(file)
             for row in reader:
                 item = cls(row["name"], int(row["price"]), int(row["quantity"]))
