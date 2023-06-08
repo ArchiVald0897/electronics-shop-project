@@ -30,7 +30,7 @@ class Item:
 
     @classmethod
     def instantiate_from_csv(cls):
-        with open("..\src\items.csv", "r", encoding='utf-8') as file:
+        with open("..\src\items.csv", "r") as file:
             reader = DictReader(file)
             for row in reader:
                 item = cls(row["name"], int(row["price"]), int(row["quantity"]))
