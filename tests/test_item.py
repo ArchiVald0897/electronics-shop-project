@@ -62,3 +62,9 @@ def test_magical_methods():
     item1 = Item("Смартфон", 10000, 20)
     assert repr(item1) == "Item('Смартфон', 10000, 20)"
     assert str(item1) == "Смартфон"
+
+
+def test_item_add():
+    item1 = Item("Смартфон", 120_000, 5)
+    item2 = Item("Смартфон", 100_000, 10)
+    assert item1 + item2 == 15

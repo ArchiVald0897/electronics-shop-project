@@ -16,6 +16,11 @@ class Item:
     def __str__(self):
         return f"{self.name}"
 
+    def __add__(self, other):
+        if not isinstance(other, Item):
+            raise ValueError("Количество физических SIM-карт должно быть целым числом больше нуля")
+        return self.quantity + other.quantity
+
     @property
     def name(self):
         return self._name
