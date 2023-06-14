@@ -1,3 +1,4 @@
+import pytest
 from src.phone import Phone
 
 
@@ -12,3 +13,19 @@ def test_phone_add():
     phone1 = Phone("iPhone 14", 120_000, 5, 2)
     phone2 = Phone("iPhone 13", 100_000, 10, 4)
     assert phone1 + phone2 == 15
+
+
+def test_phone_number_of_sim():
+    phone1 = Phone("iPhone 14", 120_000, 5, 2)
+    assert phone1.number_of_sim == 2
+
+    # Должно вызывать исключение ValueError
+    with pytest.raises(ValueError):
+        phone1.number_of_sim = 0
+
+    # Должно вызывать исключение ValueError
+    with pytest.raises(ValueError):
+        phone1.number_of_sim = -1
+
+    phone1.number_of_sim = 1
+    assert phone1.number_of_sim == 1
