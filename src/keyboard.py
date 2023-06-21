@@ -2,19 +2,24 @@ from src.item import Item
 
 
 class MixinLanguage:
-    language = "EN"
+    languages = ("EN", "RU")
 
-    def __init__(self, language: str, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.language = language
+    def __init__(self, name: str, price: float, quantity: int):
+        super().__init__(name, price, quantity)
+        self.__language = "EN"
+
+    @property
+    def language(self):
+        return self.__language
 
     def change_lang(self):
-        if self.language == "EN":
-            self.language = "RU"
-        elif self.language == "RU":
-            self.language = "EN"
+        if self.__language == "EN":
+            self.__language = "RU"
+        elif self.__language == "RU":
+            self.__language = "EN"
         return self
 
 
-class KeyBoard(Item, MixinLanguage):
+class KeyBoard(MixinLanguage, Item):
     pass
+
