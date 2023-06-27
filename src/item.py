@@ -1,4 +1,8 @@
-from csv import DictReader
+import csv
+
+
+class InstantiateCSVError(Exception):
+    pass
 
 
 class Item:
@@ -9,12 +13,13 @@ class Item:
         self._name = name
         self.price = price
         self.quantity = quantity
+        self.all.append(self)
 
     def __repr__(self):
-        return f"{self.__class__.__name__}('{self.name}', {self.price}, {self.quantity})"
+        return f"{self.__class__.__name__}('{self._name}', {self.price}, {self.quantity})"
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self._name}"
 
     def __add__(self, other):
         if not isinstance(other, Item):
@@ -41,12 +46,23 @@ class Item:
 
     @classmethod
     def instantiate_from_csv(cls):
-        with open("..\src\items.csv", "r") as file:
-            reader = DictReader(file)
-            for row in reader:
-                item = cls(row["name"], int(row["price"]), int(row["quantity"]))
-                cls.all.append(item)
+        Item.all.clear()
+        try:
+            with open("..\src\items.csv", "r") as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    if "name" not in row or "price" not in row or "quantity" not in row:
+                        raise InstantiateCSVError("Файл item.csv поврежден")
+                    name = row["name"]
+                    price = float(row["price"])
+                    quantity = int(row["quantity"])
+                    Item(name, price, quantity)
+        except FileNotFoundError:
+            print("FileNotFoundError: Отсутствует файл items.csv")
 
     @staticmethod
     def string_to_number(num_str):
+        if num_str.strip() == "":
+            return 0
         return int(float(num_str))
+
