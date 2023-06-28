@@ -1,6 +1,9 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
+import csv
+
 import pytest
 from src.item import Item
+from unittest.mock import patch
 
 
 def test_name_property():
@@ -68,3 +71,16 @@ def test_item_add():
     item1 = Item("Смартфон", 120_000, 5)
     item2 = Item("Смартфон", 100_000, 10)
     assert item1 + item2 == 15
+
+
+def test_instantiate_from_csv_file_not_found(capsys):
+    with patch('builtins.open') as mock_open:
+        mock_open.side_effect = FileNotFoundError
+
+        with patch('builtins.print') as mock_print:
+            Item.instantiate_from_csv()
+
+            mock_print.assert_called_with("FileNotFoundError: Отсутствует файл items.csv")
+
+    out, _ = capsys.readouterr()
+    assert out == ""
