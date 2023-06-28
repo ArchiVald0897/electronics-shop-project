@@ -21,5 +21,9 @@ class MixinLanguage:
 
 
 class KeyBoard(MixinLanguage, Item):
-    pass
+    def __init__(self, name, price, quantity):
+        super().__init__(name, price, quantity)
+
+    def __str__(self):
+        return self.name
 

@@ -1,4 +1,5 @@
 import csv
+import os
 
 
 class InstantiateCSVError(Exception):
@@ -65,4 +66,3 @@ class Item:
         if num_str.strip() == "":
             return 0
         return int(float(num_str))
-
