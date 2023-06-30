@@ -2,30 +2,36 @@ import pytest
 from src.phone import Phone
 
 
-def test_magical_methods():
-    phone1 = Phone("iPhone 14", 120_000, 5, 2)
-    assert str(phone1) == 'iPhone 14'
-    assert repr(phone1) == "Phone('iPhone 14', 120000, 5, 2)"
-    assert phone1.number_of_sim == 2
+@pytest.fixture()
+def phone():
+    return Phone("iPhone 4s", 10000, 1, 7)
 
 
-def test_phone_add():
-    phone1 = Phone("iPhone 14", 120_000, 5, 2)
-    phone2 = Phone("iPhone 13", 100_000, 10, 4)
-    assert phone1 + phone2 == 15
+def test_phone__init__(phone):
+    assert phone.name == "iPhone 4s"
+    assert phone.price == 10000
+    assert phone.quantity == 1
+    assert phone.number_of_sim == 7
 
 
-def test_phone_number_of_sim():
-    phone1 = Phone("iPhone 14", 120_000, 5, 2)
-    assert phone1.number_of_sim == 2
+def test_phone_number_of_sim_setter(phone):
+    phone.number_of_sim = 3
+    assert phone.number_of_sim == 3
 
-    # Должно вызывать исключение ValueError
+
+def test_phone_number_of_sim_setter_invalid(phone):
     with pytest.raises(ValueError):
-        phone1.number_of_sim = 0
+        phone.number_of_sim = -1
 
-    # Должно вызывать исключение ValueError
+
+def test_phone_number_of_sim_setter_invalid_zero(phone):
     with pytest.raises(ValueError):
-        phone1.number_of_sim = -1
+        phone.number_of_sim = 0
 
-    phone1.number_of_sim = 1
-    assert phone1.number_of_sim == 1
+
+def test_phone__str__(phone):
+    assert str(phone) == "iPhone 4s"
+
+
+def test_phone__repr__(phone):
+    assert repr(phone) == "Phone('iPhone 4s', 10000, 1, 7)"
